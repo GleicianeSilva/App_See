@@ -7,3 +7,5 @@ req.txt
 __pycache__/
 best.model
 datasets
+.pylint.d/
+mini_datasets/
