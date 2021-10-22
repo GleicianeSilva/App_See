@@ -19,6 +19,7 @@ scaled_labels = []
 for img_file in random.sample(g, 1):
     img = cv2.imread(img_file, cv2.IMREAD_COLOR)
 
+
   
     img = f.preprocessamento(img, to_size)
     if img is not None and len(img):
