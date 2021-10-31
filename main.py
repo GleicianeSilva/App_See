@@ -13,7 +13,6 @@ to_size = 320
 scaled = []
 scaled_labels = []
 
-
 # Extraindo as moedas das imagens originais usada na definição extraido_moeda
 
 for img_file in random.sample(g, 1):

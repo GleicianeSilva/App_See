@@ -226,16 +226,16 @@ print(model.summary())  # Print do Sumário do Modelo
 # Compilando a rede definindo: otimizador, metrica e loss function(função de perda)
 # adam --> otimizador
 # sparse_categorical_crossentropy --> função de perda para classificação de multiclasse
-# accuracy --> métrica de acerto
+# accuracy --> métrica precisão de acerto
 model.compile(optimizer= Adam(learning_rate=learning_rate_1), loss='sparse_categorical_crossentropy',metrics=['accuracy'])
 
 
 ''' ----------------------< Treinamento do Modelo >----------------------'''
-reduce_LRO = ReduceLROnPlateau(patience=5, factor=0.01, verbose=True)
-checkpoint = ModelCheckpoint('chest_orientation_model.hdf5', monitor='val_loss', verbose=1, mode='min', save_best_only=True) #ModelCheckPoint para salvar o modelo que tiver o melhor loss durante o treinamento
-early_stop = EarlyStopping(monitor='val_loss', min_delta=0.001, patience=12, mode='min', verbose=1) #EarlyStop para interromper o treinamento caso a rede pare de aprender.
+reduce_LRO = ReduceLROnPlateau(patience=5, factor=0.01, verbose=True) #ReduceLROnPlateau - aplica a redução da taxa de aprendizado quando a metrica para de ser melhorada
+checkpoint = ModelCheckpoint('chest_orientation_model.hdf5', monitor='val_loss', verbose=1, mode='min', save_best_only=True) #ModelCheckPoint salva o modelo que tiver o melhor loss durante o treinamento
+early_stop = EarlyStopping(monitor='val_loss', min_delta=0.001, patience=12, mode='min', verbose=1) #EarlyStop interrompe o treinamento caso a rede pare de aprender.
 
-#Começando a primeira parte do treinamento do modelo
+#Começando a primeira parte do treinamento  do modelo. Neste momento a rede começa a aprender
 #epochs:o número de vezes que o modelo é treinado em todo o conjunto de dados.
 history = model.fit(
     dataset_de_treino,
@@ -272,9 +272,9 @@ from tensorflow.keras.models import load_model
 
 # Pegando uma imagem escolhida para avaliação do modelo
 test_image = carregaImagem('datasets/' + imagem_teste)
-model = load_model('chest_orientation_model.hdf5')
+model = load_model('chest_orientation_model.hdf5') #Carrega o modelo salvo
 test_image_expd = np.expand_dims(test_image, axis = 0,) / 255
-result = model.predict(test_image_expd, batch_size=1)
+result = model.predict(test_image_expd, batch_size=1) #Recebemos as respostas da rede.
 
 classe_predita = Le.inverse_transform((np.argmax(result), ))[0]
 classe_real = imagem_teste.split('_')[0]
