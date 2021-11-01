@@ -46,7 +46,7 @@ imagem_teste = '25_20.jpg'
 
 
 '''----------------------------------------------------------------------'''
-'''' Definiçção de funções auxiliares  '''
+'''' Definição de funções auxiliares  '''
 
 # Pega os labels das variáveis contidas em todos_os_caminhos
 def classificar_rotulo(image_path):
@@ -160,11 +160,10 @@ image, label = next(iter(dataset_de_validacao)) #pegando uma moeda do dataset de
 print('\nTamanho do Datasets de Validação: ', image.shape) #imprimido tamanho do dataset de imagens (32 imagens, 320x320 tamanho, 3 cores RGB vermelho, verde, azul)
 print('\nQuantidade de Rotulos de Validação: ', label.shape) #imprimido a quantidade de rótulos
 
-
-#Plotando a primeira imagem para enxergar o dataset de validação
 coin_values = Le.inverse_transform(label)#Escrevendo o valor da moeda
 print('\nPrimeira Moeda do Dataset de Validação: ', coin_values[0])#printa o rótulo da moeda
 
+#Plotando a primeira imagem para enxergar o dataset de validação
 # Mostra primeira imagem do dataset de validação
 plt.figure()
 plt.imshow(image.numpy()[0])#ploto a imagem da moeda
@@ -265,6 +264,11 @@ perda, acuracia = model.evaluate(dataset_de_validacao) #Passando o dataset de va
 print("\nAcuracia: ", np.round(acuracia * 100, 2), '%')
 print("\nPerda : ", perda)
 
+plt.figure()
+plt.plot(history.history['accuracy'], label='Treinamento');plt.plot(history.history['val_accuracy'], label='Validação');
+plt.legend()
+plt.xlabel('Épocas')
+plt.ylabel('Acurácia')
 
 ''' ----------------------< Avaliação do Modelo >----------------------'''
 
@@ -282,13 +286,6 @@ classe_real = imagem_teste.split('_')[0]
 # Previsão da primeira imagem
 print('\nMoeda: ', classe_real)
 print('\nPredição do Modelo: ', classe_predita)
-
-
-plt.figure()
-plt.plot(history.history['accuracy'], label='Treinamento');plt.plot(history.history['val_accuracy'], label='Validação');
-plt.legend()
-plt.xlabel('Épocas')
-plt.ylabel('Acurácia')
 
 plt.figure()
 plt.imshow(test_image)
